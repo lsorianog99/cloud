@@ -267,14 +267,14 @@ export default function App() {
   const [awsSub, setAwsSub] = useState("g6.2xlarge (Reserved 1yr)");
 
   // === EDITABLE GCP STATE ===
-  const [gcpBase, setGcpBase] = useState(516);
-  const [gcpStorage, setGcpStorage] = useState(17);
-  const [gcpDataTransfer, setGcpDataTransfer] = useState(60);
-  const [gcpMonitoring, setGcpMonitoring] = useState(12);
-  const [gcpBackup, setGcpBackup] = useState(25);
+  const [gcpBase, setGcpBase] = useState(623.15);
+  const [gcpStorage, setGcpStorage] = useState(51);
+  const [gcpDataTransfer, setGcpDataTransfer] = useState(45);
+  const [gcpMonitoring, setGcpMonitoring] = useState(0);
+  const [gcpBackup, setGcpBackup] = useState(0);
   const [gcpOpsIncluded, setGcpOpsIncluded] = useState(false);
-  const [gcpSpecs, setGcpSpecs] = useState("4 vCPU · 16 GB · NVIDIA L4 · Sin almacenamiento");
-  const [gcpSub, setGcpSub] = useState("g2-standard-4 (On-Demand)");
+  const [gcpSpecs, setGcpSpecs] = useState("8 vCPU · 32 GB · NVIDIA L4 (24GB) · 512 GB Balanced PD");
+  const [gcpSub, setGcpSub] = useState("g2-standard-8 (On-Demand)");
 
   // === EDITABLE KAIONE STATE ===
   const [kaioneInfra, setKaioneInfra] = useState(199);
