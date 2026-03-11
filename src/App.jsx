@@ -283,8 +283,8 @@ export default function App() {
   const [kaioneDataIncluded, setKaioneDataIncluded] = useState(true);
   const [kaioneSslIncluded, setKaioneSslIncluded] = useState(true);
   const [kaioneOpsIncluded, setKaioneOpsIncluded] = useState(true);
-  const [kaioneSpecs, setKaioneSpecs] = useState("4 vCPU · 16 GB · Apple M-series 10-core GPU · 16-core Neural Engine · 100 GB NVMe");
-  const [kaioneSub, setKaioneSub] = useState("Nube Privada Gestionada (Apple Silicon)");
+  const [kaioneSpecs, setKaioneSpecs] = useState("4 vCPU · 16 GB · GPU 10 cores · Neural Engine 16 cores · 100 GB NVMe");
+  const [kaioneSub, setKaioneSub] = useState("Nube Privada Gestionada");
 
   // === AUTO-CALCULATED TOTALS ===
   const awsTotal = awsBase + awsDataTransfer + awsMonitoring + awsBackup;
@@ -578,10 +578,10 @@ export default function App() {
                   },
                   {
                     name: "Kaione", color: COLORS.kaione, icon: "🟢",
-                    gpu: "Apple Silicon · 10-core GPU",
-                    arch: "Neural Engine + GPU Unificada",
-                    mem: "16 GB memoria unificada",
-                    items: ["Neural Engine 16 cores · 38 TOPS", "GPU con ray tracing por hardware", "Memoria unificada de alto ancho de banda", "Optimizado para inferencia AI"],
+                    gpu: "GPU 10 cores + Neural Engine",
+                    arch: "Aceleración AI dedicada",
+                    mem: "16 GB de alto rendimiento",
+                    items: ["Neural Engine de 16 cores dedicado a AI", "GPU con ray tracing por hardware", "Memoria de alto ancho de banda", "Optimizado para inferencia AI"],
                   },
                   {
                     name: "¿Por qué importa?", color: "#8B5CF6", icon: "💡",
@@ -701,7 +701,7 @@ export default function App() {
                       ["Total Mensual", fmt(awsTotal), fmt(gcpTotal), fmt(kaioneTotal)],
                       ["vCPU", "8", "8", "4 (optimizado para GPU)"],
                       ["RAM", "32 GB", "32 GB", "16 GB unificada"],
-                      ["GPU", "NVIDIA L4 (24GB GDDR6)", "NVIDIA L4 (24GB GDDR6)", "Apple M-series 10-core + Neural Engine"],
+                      ["GPU", "NVIDIA L4 (24GB GDDR6)", "NVIDIA L4 (24GB GDDR6)", "GPU 10 cores + Neural Engine 16 cores"],
                       ["Almacenamiento", "512 GB EBS", "512 GB Balanced PD", "100 GB NVMe"],
                       ["Data Transfer Out", awsDataTransfer > 0 ? fmt(awsDataTransfer) + "/mo" : "Incluido", gcpDataTransfer > 0 ? fmt(gcpDataTransfer) + "/mo" : "Incluido", kaioneDataIncluded ? "Incluido ∞" : "No incluido"],
                       ["Monitoreo 24/7", awsMonitoring > 0 ? "+" + fmt(awsMonitoring) + "/mo" : "Incluido", gcpMonitoring > 0 ? "+" + fmt(gcpMonitoring) + "/mo" : "Incluido", "Incluido"],
