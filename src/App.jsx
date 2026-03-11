@@ -574,8 +574,6 @@ export default function App() {
                     gpu: "NVIDIA L4",
                     arch: "Data Center GPU",
                     mem: "24 GB GDDR6 dedicada",
-                    focus: "Procesamiento masivo y training",
-                    power: "~72W por GPU",
                     items: ["Arquitectura Ada Lovelace", "Diseñada para centros de datos", "Orientada a cargas de alto volumen", "Requiere infraestructura dedicada"],
                   },
                   {
@@ -583,23 +581,19 @@ export default function App() {
                     gpu: "Apple Silicon · 10-core GPU",
                     arch: "Neural Engine + GPU Unificada",
                     mem: "16 GB memoria unificada",
-                    focus: "Inferencia AI optimizada",
-                    power: "~20-30W total",
-                    items: ["Neural Engine 16 cores · 38 TOPS", "GPU con ray tracing por hardware", "Memoria unificada de alto ancho de banda", "Eficiencia energética superior"],
+                    items: ["Neural Engine 16 cores · 38 TOPS", "GPU con ray tracing por hardware", "Memoria unificada de alto ancho de banda", "Optimizado para inferencia AI"],
                   },
                   {
                     name: "¿Por qué importa?", color: "#8B5CF6", icon: "💡",
                     gpu: "",
                     arch: "",
                     mem: "",
-                    focus: "",
-                    power: "",
                     isInfo: true,
                     items: [
-                      "Modelos de inferencia pequeños y medianos no requieren GPUs de data center",
-                      "El Neural Engine está diseñado específicamente para ejecutar modelos de AI con máxima eficiencia",
-                      "Menor consumo = menor costo operativo real",
-                      "Infraestructura gestionada elimina la complejidad de administrar GPUs de servidor",
+                      "Los modelos de inferencia no requieren GPUs de data center para operar eficientemente",
+                      "El Neural Engine está diseñado específicamente para ejecutar modelos de AI",
+                      "Servicio gestionado: sin preocuparse por hardware, actualizaciones o mantenimiento",
+                      "Costo mensual fijo y predecible vs. costos variables de nube pública",
                     ],
                   },
                 ].map((col, i) => (
@@ -614,8 +608,7 @@ export default function App() {
                       <div style={{ marginBottom: 14 }}>
                         <div style={{ fontSize: 14, fontWeight: 800, color: COLORS.text, marginBottom: 4 }}>{col.gpu}</div>
                         <div style={{ fontSize: 11, color: COLORS.muted, marginBottom: 2 }}>{col.arch}</div>
-                        <div style={{ fontSize: 11, color: COLORS.muted, marginBottom: 2 }}>Memoria: {col.mem}</div>
-                        <div style={{ fontSize: 11, color: COLORS.muted }}>Consumo: {col.power}</div>
+                        <div style={{ fontSize: 11, color: COLORS.muted }}>Memoria: {col.mem}</div>
                       </div>
                     )}
                     <div style={{ borderTop: col.isInfo ? "none" : `1px solid ${col.color}22`, paddingTop: col.isInfo ? 0 : 12 }}>
