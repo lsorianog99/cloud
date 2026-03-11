@@ -255,6 +255,8 @@ export default function App() {
   const [revisionesMes, setRevisionesMes] = useState(20);
   const [costoLuz, setCostoLuz] = useState(2500);
   const [costoServidor, setCostoServidor] = useState(3500);
+  const [horasAntes, setHorasAntes] = useState(24);
+  const [horasAhora, setHorasAhora] = useState(4);
 
   // === EDITABLE AWS STATE ===
   const [awsBase, setAwsBase] = useState(621.69);
@@ -296,8 +298,7 @@ export default function App() {
 
   // --- ROI DATA (uses kaioneTotal from cloud tab) ---
   const salarioHora = salarioMensual / 160;
-  const horasAntes = 24;
-  const horasAhora = 4;
+  // horasAntes and horasAhora are now state (defined above with other ROI state)
 
   const costoRevisionAntes = salarioHora * horasAntes;
   const costoRevisionAhora = salarioHora * horasAhora;
@@ -774,6 +775,13 @@ export default function App() {
                   min={1000} max={15000} step={500} format={v => fmtMXN(v)} />
                 <Slider label="Tipo de cambio USD/MXN" value={tcUSD} onChange={setTcUSD}
                   min={15} max={22} step={0.5} format={v => "$" + v.toFixed(1)} />
+                <div style={{ borderTop: `1px solid ${COLORS.border}44`, marginTop: 8, paddingTop: 12 }}>
+                  <p style={{ color: COLORS.muted, fontSize: 10, fontWeight: 600, textTransform: "uppercase", letterSpacing: 1, marginBottom: 10 }}>Tiempos de Revisión</p>
+                  <Slider label="Horas antes (proceso manual)" value={horasAntes} onChange={setHorasAntes}
+                    min={1} max={72} step={1} format={v => v + " hrs"} />
+                  <Slider label="Horas ahora (con Kaione)" value={horasAhora} onChange={setHorasAhora}
+                    min={0.5} max={24} step={0.5} format={v => v + " hrs"} />
+                </div>
               </GlowCard>
 
               {/* Results Panel */}
@@ -790,7 +798,7 @@ export default function App() {
                     <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 16, padding: "10px 14px", background: COLORS.redGlow, borderRadius: 10 }}>
                       <span style={{ fontSize: 24 }}>⏱</span>
                       <div>
-                        <div style={{ fontSize: 24, fontWeight: 900, color: COLORS.red, fontFamily: "'JetBrains Mono', monospace" }}>24 hrs</div>
+                        <div style={{ fontSize: 24, fontWeight: 900, color: COLORS.red, fontFamily: "'JetBrains Mono', monospace" }}>{horasAntes} hrs</div>
                         <div style={{ fontSize: 10, color: COLORS.muted }}>por revisión</div>
                       </div>
                     </div>
@@ -822,7 +830,7 @@ export default function App() {
                     <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 16, padding: "10px 14px", background: COLORS.greenGlow, borderRadius: 10 }}>
                       <span style={{ fontSize: 24 }}>⚡</span>
                       <div>
-                        <div style={{ fontSize: 24, fontWeight: 900, color: COLORS.green, fontFamily: "'JetBrains Mono', monospace" }}>4 hrs</div>
+                        <div style={{ fontSize: 24, fontWeight: 900, color: COLORS.green, fontFamily: "'JetBrains Mono', monospace" }}>{horasAhora} hrs</div>
                         <div style={{ fontSize: 10, color: COLORS.muted }}>por revisión</div>
                       </div>
                     </div>
@@ -876,12 +884,12 @@ export default function App() {
                     <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                       <div>
                         <span style={{ color: COLORS.muted, fontSize: 12 }}>El proceso de revisión que antes tomaba </span>
-                        <span style={{ color: COLORS.red, fontWeight: 800, fontSize: 14 }}>24 horas</span>
+                        <span style={{ color: COLORS.red, fontWeight: 800, fontSize: 14 }}>{horasAntes} horas</span>
                         <span style={{ color: COLORS.muted, fontSize: 12 }}> ahora se completa en </span>
-                        <span style={{ color: COLORS.green, fontWeight: 800, fontSize: 14 }}>4 horas</span>
+                        <span style={{ color: COLORS.green, fontWeight: 800, fontSize: 14 }}>{horasAhora} horas</span>
                       </div>
                       <div style={{ textAlign: "right" }}>
-                        <div style={{ color: COLORS.green, fontSize: 22, fontWeight: 900, fontFamily: "'JetBrains Mono', monospace" }}>6x</div>
+                        <div style={{ color: COLORS.green, fontSize: 22, fontWeight: 900, fontFamily: "'JetBrains Mono', monospace" }}>{horasAhora > 0 ? (horasAntes / horasAhora).toFixed(1).replace(/\.0$/, '') : '∞'}x</div>
                         <div style={{ color: COLORS.muted, fontSize: 10 }}>más rápido</div>
                       </div>
                     </div>
