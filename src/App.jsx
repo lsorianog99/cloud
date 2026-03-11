@@ -283,8 +283,8 @@ export default function App() {
   const [kaioneDataIncluded, setKaioneDataIncluded] = useState(true);
   const [kaioneSslIncluded, setKaioneSslIncluded] = useState(true);
   const [kaioneOpsIncluded, setKaioneOpsIncluded] = useState(true);
-  const [kaioneSpecs, setKaioneSpecs] = useState("4 vCPU · 16 GB · GPU + Neural Engine · 100 GB NVMe");
-  const [kaioneSub, setKaioneSub] = useState("Nube Privada Gestionada");
+  const [kaioneSpecs, setKaioneSpecs] = useState("4 vCPU · 16 GB · Apple M-series 10-core GPU · 16-core Neural Engine · 100 GB NVMe");
+  const [kaioneSub, setKaioneSub] = useState("Nube Privada Gestionada (Apple Silicon)");
 
   // === AUTO-CALCULATED TOTALS ===
   const awsTotal = awsBase + awsDataTransfer + awsMonitoring + awsBackup;
@@ -556,6 +556,107 @@ export default function App() {
               ))}
             </div>
 
+            {/* GPU Technical Comparison */}
+            <GlowCard color="#8B5CF6" style={{ marginBottom: 24 }}>
+              <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 16 }}>
+                <span style={{ fontSize: 20 }}>🔬</span>
+                <h3 style={{ fontSize: 16, fontWeight: 700, color: COLORS.text, margin: 0 }}>Comparativa Técnica de GPU — Transparencia</h3>
+              </div>
+              <p style={{ color: COLORS.muted, fontSize: 12, marginBottom: 20, lineHeight: 1.6 }}>
+                Las tres opciones utilizan arquitecturas de GPU diferentes. A continuación se detallan las especificaciones reales para una comparación justa y transparente.
+              </p>
+              <div style={{ overflowX: "auto" }}>
+                <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 12 }}>
+                  <thead>
+                    <tr>
+                      {["Especificación GPU", "AWS g6.2xlarge", "GCP g2-standard-8", "Kaione"].map((h, i) => (
+                        <th key={i} style={{
+                          textAlign: i === 0 ? "left" : "center", padding: "12px 16px",
+                          borderBottom: `2px solid ${COLORS.border}`,
+                          color: i === 0 ? COLORS.muted : i === 1 ? COLORS.aws : i === 2 ? COLORS.gcp : COLORS.kaione,
+                          fontWeight: 700, fontSize: 11, textTransform: "uppercase", letterSpacing: 1,
+                        }}>{h}</th>
+                      ))}
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {[
+                      ["GPU", "NVIDIA L4", "NVIDIA L4", "Apple M-series (10 cores)"],
+                      ["Arquitectura", "Ada Lovelace (CUDA)", "Ada Lovelace (CUDA)", "Apple Silicon (Metal / CoreML)"],
+                      ["VRAM / Memoria", "24 GB GDDR6 dedicada", "24 GB GDDR6 dedicada", "16 GB unificada (compartida CPU+GPU)"],
+                      ["Rendimiento FP32", "~30 TFLOPS", "~30 TFLOPS", "~4.7 TFLOPS"],
+                      ["Neural Engine / INT8", "No (usa Tensor Cores)", "No (usa Tensor Cores)", "16-core · 38 TOPS"],
+                      ["CUDA", "✅ Soportado", "✅ Soportado", "❌ No soportado"],
+                      ["CoreML / ONNX (CoreML)", "❌ No nativo", "❌ No nativo", "✅ Nativo · Optimizado"],
+                      ["Ray Tracing", "Hardware (RT Cores)", "Hardware (RT Cores)", "Hardware acelerado"],
+                      ["Consumo energético", "~72W GPU", "~72W GPU", "~20-30W total chip"],
+                      ["Mejor para", "LLMs grandes, CUDA, batch", "LLMs grandes, CUDA, batch", "CoreML, ONNX, inferencia eficiente"],
+                    ].map((row, i) => (
+                      <tr key={i} style={{ background: i % 2 === 0 ? "transparent" : `${COLORS.bg}88` }}>
+                        {row.map((cell, j) => {
+                          let cellColor = COLORS.muted;
+                          if (j === 0) cellColor = COLORS.text;
+                          else if (cell.includes("✅")) cellColor = COLORS.green;
+                          else if (cell.includes("❌")) cellColor = COLORS.orange;
+                          else if (cell.includes("Optimizado") || cell.includes("Nativo")) cellColor = COLORS.green;
+                          return (
+                            <td key={j} style={{
+                              padding: "10px 16px", textAlign: j === 0 ? "left" : "center",
+                              color: cellColor,
+                              fontWeight: j === 0 || cell.includes("✅") || cell.includes("Nativo") ? 600 : 400,
+                              fontFamily: j > 0 ? "'JetBrains Mono', monospace" : "inherit",
+                              fontSize: 11, borderBottom: `1px solid ${COLORS.border}44`,
+                            }}>{cell}</td>
+                          );
+                        })}
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+
+              {/* Transparency note */}
+              <div style={{
+                marginTop: 20, padding: "14px 20px",
+                background: `linear-gradient(135deg, rgba(139,92,246,0.08), transparent)`,
+                borderRadius: 12, border: `1px solid rgba(139,92,246,0.2)`,
+              }}>
+                <div style={{ display: "flex", gap: 10, alignItems: "flex-start" }}>
+                  <span style={{ fontSize: 16, marginTop: 2 }}>⚖️</span>
+                  <div style={{ fontSize: 11, color: COLORS.muted, lineHeight: 1.7 }}>
+                    <strong style={{ color: COLORS.text }}>Nota de transparencia:</strong> AWS y GCP utilizan GPUs NVIDIA L4 diseñadas para centros de datos con soporte CUDA.
+                    Kaione utiliza Apple Silicon con GPU integrada de 10 núcleos y Neural Engine de 16 cores optimizado para inferencia de modelos AI.
+                    <strong style={{ color: "#8B5CF6" }}> Para cargas de trabajo basadas en CoreML, ONNX y modelos de inferencia pequeños/medianos,
+                      Apple Silicon ofrece un rendimiento muy competitivo con un consumo energético significativamente menor.</strong>
+                    {" "}Si su carga de trabajo depende de CUDA o ejecuta LLMs de gran escala, las opciones NVIDIA L4 son más adecuadas.
+                  </div>
+                </div>
+              </div>
+
+              {/* Best for AI inference callout */}
+              <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 12, marginTop: 16 }}>
+                {[
+                  { provider: "AWS / GCP", icon: "🟠", color: COLORS.aws, items: ["Modelos CUDA-dependientes", "LLMs +70B parámetros", "Batch processing pesado", "Training de modelos"] },
+                  { provider: "Kaione", icon: "🟢", color: COLORS.kaione, items: ["Inferencia modelos pequeños/medianos", "CoreML & ONNX runtime", "Procesamiento de video/imagen", "AI pipelines eficientes"] },
+                  { provider: "FDV — Su caso", icon: "🎯", color: "#8B5CF6", items: ["2 modelos AI pequeños", "Inferencia en tiempo real", "No requiere CUDA", "✅ Compatible con Kaione"] },
+                ].map((col, i) => (
+                  <div key={i} style={{
+                    background: `${col.color}11`, border: `1px solid ${col.color}33`,
+                    borderRadius: 12, padding: "14px 16px",
+                  }}>
+                    <div style={{ fontSize: 12, fontWeight: 700, color: col.color, marginBottom: 10 }}>
+                      {col.icon} {col.provider}
+                    </div>
+                    {col.items.map((item, j) => (
+                      <div key={j} style={{ fontSize: 11, color: COLORS.muted, padding: "3px 0", display: "flex", gap: 6, alignItems: "center" }}>
+                        <span style={{ color: col.color, fontSize: 8 }}>●</span> {item}
+                      </div>
+                    ))}
+                  </div>
+                ))}
+              </div>
+            </GlowCard>
+
             {/* Visual Bar Comparison */}
             <GlowCard color={COLORS.accent} style={{ marginBottom: 24 }}>
               <h3 style={{ fontSize: 16, fontWeight: 700, marginBottom: 20, color: COLORS.text }}>
@@ -615,6 +716,10 @@ export default function App() {
                     {[
                       ["Costo Base", fmt(awsBase), fmt(gcpBase), fmt(kaioneInfra)],
                       ["Total Mensual", fmt(awsTotal), fmt(gcpTotal), fmt(kaioneTotal)],
+                      ["vCPU", "8", "8", "4 (optimizado para GPU)"],
+                      ["RAM", "32 GB", "32 GB", "16 GB unificada"],
+                      ["GPU", "NVIDIA L4 (24GB GDDR6)", "NVIDIA L4 (24GB GDDR6)", "Apple M-series 10-core + Neural Engine"],
+                      ["Almacenamiento", "512 GB EBS", "512 GB Balanced PD", "100 GB NVMe"],
                       ["Data Transfer Out", awsDataTransfer > 0 ? fmt(awsDataTransfer) + "/mo" : "Incluido", gcpDataTransfer > 0 ? fmt(gcpDataTransfer) + "/mo" : "Incluido", kaioneDataIncluded ? "Incluido ∞" : "No incluido"],
                       ["Monitoreo 24/7", awsMonitoring > 0 ? "+" + fmt(awsMonitoring) + "/mo" : "Incluido", gcpMonitoring > 0 ? "+" + fmt(gcpMonitoring) + "/mo" : "Incluido", "Incluido"],
                       ["Backups", awsBackup > 0 ? "+" + fmt(awsBackup) + "/mo" : "Incluido", gcpBackup > 0 ? "+" + fmt(gcpBackup) + "/mo" : "Incluido", "Incluido (14 días)"],
@@ -640,7 +745,8 @@ export default function App() {
                 </table>
               </div>
               <p style={{ color: COLORS.muted, fontSize: 10, marginTop: 16, fontStyle: "italic" }}>
-                * Todos los precios en USD. {editMode ? "Los valores son editables desde las tarjetas superiores." : "Activa el modo edición para personalizar precios."}
+                * Precios AWS basados en cotización real g6.2xlarge Reserved 1yr. Precios GCP según tarifas públicas g2-standard-8 on-demand. Todos los precios en USD.
+                {editMode ? " Los valores son editables desde las tarjetas superiores." : " Activa el modo edición para personalizar precios."}
               </p>
             </GlowCard>
           </div>
