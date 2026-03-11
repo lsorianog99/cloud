@@ -278,7 +278,7 @@ export default function App() {
 
   // === EDITABLE KAIONE STATE ===
   const [kaioneInfra, setKaioneInfra] = useState(199);
-  const [kaioneSoporte, setKaioneSoporte] = useState(60);
+  const [kaioneSoporte, setKaioneSoporte] = useState(120);
   const [kaioneBackup, setKaioneBackup] = useState(30);
   const [kaioneDataIncluded, setKaioneDataIncluded] = useState(true);
   const [kaioneSslIncluded, setKaioneSslIncluded] = useState(true);
